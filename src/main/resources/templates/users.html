@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Users</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <h2>Add userForm</h2>
+  <form method="POST">
+    <input type="text" name="text" placeholder="Text"/>
+    <br/>
+    <input type="text" name="tag" placeholder="Tag"/>
+    <br/>
+    <input type="submit" value="Create" />
+  </form>
+  <br/>
+  <h2>List userForms</h2>
+  <table>
+    <thead>
+    <tr>
+      <th> Text </th>
+      <th> Tag </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${!userForms.iterator().hasNext()}">
+      <td colspan="2"> No UserForm Available </td>
+    </tr>
+    <tr th:each="userForm : ${userForms}">
+      <td><span th:text="${userForm.text}"> Text </span></td>
+      <td><span th:text="${userForm.tag}"> Tag </span></td>
+    </tr>
+    </tbody>
+  </table>
+</body>
+</html>
