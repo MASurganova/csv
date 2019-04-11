@@ -1,9 +1,13 @@
 package com.test.csv.controller;
 
+import com.test.csv.Util.CsvDataLoader;
+import com.test.csv.model.TopForm;
 import com.test.csv.model.UserForm;
-import com.test.csv.repisitory.UserFormRepository;
+import com.test.csv.repository.UserFormRepository;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -17,25 +21,44 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserFormController {
 
   private UserFormRepository repository;
+  private boolean filled;
 
   @Autowired
   public UserFormController(UserFormRepository repository) {
     this.repository = repository;
   }
 
-  @GetMapping("/greeting")
+  @GetMapping()
   public String greeting(
       @RequestParam(name = "name", required = false, defaultValue = "World") String name,
       Model model) {
+    if (!filled) {
+      new Thread(this::fillDatabase).run();
+    }
     model.addAttribute("name", name);
     return "greeting";
   }
 
-  @GetMapping
+  @GetMapping("/users")
   public String users(Model model) {
     Iterable<UserForm> userForms = repository.findAll();
     model.addAttribute("userForms", userForms);
     return "users";
+  }
+
+  @GetMapping("/topForms")
+  public String topForms(Model model) {
+    List<TopForm> forms = repository.getTopForm().stream()
+        .sorted((f1, f2) -> (int)(f2.getCount() - f1.getCount())).limit(5).collect(Collectors.toList());
+    model.addAttribute("forms", forms);
+    return "topForms";
+  }
+
+  @GetMapping("/lastHour")
+  public String userFormByLastHour(Model model) {
+    List<UserForm> forms = repository.getUserFormByTime(LocalTime.now().minusHours(1), LocalTime.now());
+    model.addAttribute("forms", forms);
+    return "lastHourUserForm";
   }
 
   @PostMapping
@@ -53,6 +76,12 @@ public class UserFormController {
     model.addAttribute("userForms", userForms);
 
     return "users";
+  }
+
+  public void fillDatabase() {
+    CsvDataLoader.loadCsvUserForms().parallelStream().map(CsvDataLoader::csvUserFormToUserForm)
+        .forEach(repository::save);
+    filled = true;
   }
 
 }
