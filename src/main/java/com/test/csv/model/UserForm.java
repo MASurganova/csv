@@ -23,6 +23,7 @@ public class UserForm {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private int id;
+
   private String userUid;
   private LocalTime eventTime;
   private String eventGroup;
@@ -31,6 +32,7 @@ public class UserForm {
   private String url;
   private String organizationId;
   private String formId;
+  private String code;
 
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime date;

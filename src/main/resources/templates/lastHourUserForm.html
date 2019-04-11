@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Users and forms by last hour</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <br/>
+  <h2>Users and forms by last hour</h2>
+  <table>
+    <thead>
+    <tr>
+      <th> User UID </th>
+      <th> Form id </th>
+    </tr>
+    </thead>
+    <tr th:if="${!forms.iterator().hasNext()}">
+    <td colspan="2"> No UserForm Available </td>
+    </tr>
+    <tr th:each="form : ${forms}">
+      <td><span th:text="${form.userUid}"></span></td>
+      <td><span th:text="${form.formId}"></span></td>
+    </tr>
+  </table>
+</body>
+</html>

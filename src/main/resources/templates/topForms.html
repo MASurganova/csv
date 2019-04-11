@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Users</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <br/>
+  <h2>Top forms</h2>
+  <table>
+    <thead>
+    <tr>
+      <th> Form </th>
+      <th> Count </th>
+    </tr>
+    </thead>
+    <tr th:each="topForm : ${forms}">
+      <td><span th:text="${topForm.getFormId()}"></span></td>
+      <td><span th:text="${topForm.getCount()}"></span></td>
+    </tr>
+  </table>
+</body>
+</html>
