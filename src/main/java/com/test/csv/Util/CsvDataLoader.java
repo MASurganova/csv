@@ -15,9 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
+/**
+ * Data uploader from csv file
+ */
 public class CsvDataLoader {
   private static final Logger logger = LoggerFactory.getLogger(CsvDataLoader.class);
 
+  /**
+   * Returns list of transfer objects by file name
+   */
   public static List<CsvUserForm> loadCsvUserForms(String fileName) {
     try {
       CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader().withColumnSeparator(';');
@@ -32,6 +38,9 @@ public class CsvDataLoader {
     }
   }
 
+  /**
+   * Adapter between UserForm and CsvUserForm
+   */
   public static UserForm csvUserFormToUserForm(CsvUserForm csvUserForm) {
     UserForm userForm = new UserForm();
     userForm.setUserUid(csvUserForm.getSsoid());

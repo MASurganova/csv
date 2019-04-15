@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
+/**
+ * Transfer object to get data from database for request top five forms
+ */
 @Getter
 @Setter
 @NoArgsConstructor

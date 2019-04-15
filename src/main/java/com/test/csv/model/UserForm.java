@@ -14,6 +14,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+/**
+ * Entity for database
+ */
 @Getter
 @Setter
 @NoArgsConstructor

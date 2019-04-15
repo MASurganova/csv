@@ -14,7 +14,7 @@ public interface UserFormRepository extends CrudRepository<UserForm, Integer> {
   @Query("SELECT new com.test.csv.to.TopForm(u.formId, COUNT(u.userUid)) FROM UserForm u WHERE u.formId NOT in ('') GROUP BY u.formId")
   List<TopForm> getTopForm();
 
-  @Query("SELECT u FROM UserForm u WHERE u.eventTime BETWEEN :startTime AND :endTime ORDER BY u.eventTime DESC")
+  @Query("SELECT u FROM UserForm u WHERE u.eventTime BETWEEN :startTime AND :endTime ORDER BY u.userUid, u.eventTime DESC ")
   List<UserForm> getUserFormByTime(@Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
 
 //  @Query(value = "SELECT u FROM User u ORDER BY id")

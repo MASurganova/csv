@@ -7,16 +7,16 @@
 <body>
   <br/>
   <h2>Top forms</h2>
-  <table>
+  <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <thead>
     <tr>
-      <th> Form </th>
-      <th> Count </th>
+      <th style="text-align:center"><b>Form</b></th>
+      <th style="text-align:center"><b>Count</b></th>
     </tr>
     </thead>
     <tr th:each="topForm : ${forms}">
-      <td><span th:text="${topForm.getFormId()}"></span></td>
-      <td><span th:text="${topForm.getCount()}"></span></td>
+      <td style="text-align:left" th:utext="${topForm.formId}"></td>
+      <td style="text-align:left" th:utext="${topForm.count}"></td>
     </tr>
   </table>
 </body>

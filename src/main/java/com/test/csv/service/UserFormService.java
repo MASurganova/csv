@@ -11,6 +11,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service to get data from the repository
+ */
 @Service
 public class UserFormService {
 
@@ -23,20 +26,32 @@ public class UserFormService {
     this.repository = repository;
   }
 
+  /**
+   * Fills database from csv file at the start
+   */
   @PostConstruct
   private void init() {
     fillDatabase();
   }
 
-  public Iterable<UserForm> users() {
+  /**
+   * Returns list of user forms
+   */
+  public Iterable<UserForm> userForms() {
     return repository.findAll();
   }
 
+  /**
+   * Returns top five of forms
+   */
   public List<TopForm> top5Forms() {
     return repository.getTopForm().stream()
         .sorted((f1, f2) -> (int)(f2.getCount() - f1.getCount())).limit(5).collect(Collectors.toList());
   }
 
+  /**
+   * Returns list of user forms by last hour
+   */
   public List<UserForm> userFormByLastHour() {
     return repository.getUserFormByTime(LocalTime.now().minusHours(1), LocalTime.now());
   }
@@ -45,8 +60,11 @@ public class UserFormService {
     return repository.save(userForm) != null;
   }
 
+  /**
+   * Fills database from csv file
+   */
   private void fillDatabase() {
-    CsvDataLoader.loadCsvUserForms(FILE_NAME).parallelStream().map(CsvDataLoader::csvUserFormToUserForm)
+    CsvDataLoader.loadCsvUserForms(FILE_NAME).stream().map(CsvDataLoader::csvUserFormToUserForm)
         .forEach(repository::save);
   }
 

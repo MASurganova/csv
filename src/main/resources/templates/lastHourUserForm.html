@@ -7,19 +7,19 @@
 <body>
   <br/>
   <h2>Users and forms by last hour</h2>
-  <table>
+  <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <thead>
     <tr>
-      <th> User UID </th>
-      <th> Form id </th>
+      <th style="text-align:center"><b>User UID</b></th>
+      <th style="text-align:center"><b>Form id</b></th>
     </tr>
     </thead>
     <tr th:if="${!forms.iterator().hasNext()}">
     <td colspan="2"> No UserForm Available </td>
     </tr>
     <tr th:each="form : ${forms}">
-      <td><span th:text="${form.userUid}"></span></td>
-      <td><span th:text="${form.formId}"></span></td>
+      <td style="text-align:left" th:utext="${form.userUid}"></td>
+      <td style="text-align:left" th:utext="${form.formId}"></td>
     </tr>
   </table>
 </body>

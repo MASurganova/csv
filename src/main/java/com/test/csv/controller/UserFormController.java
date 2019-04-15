@@ -4,7 +4,6 @@ import com.test.csv.model.UserForm;
 import com.test.csv.service.UserFormService;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -24,6 +23,9 @@ public class UserFormController {
     this.service = service;
   }
 
+  /**
+   * Returns start page
+   */
   @GetMapping()
   public String greeting(
       @RequestParam(name = "name", required = false, defaultValue = "World") String name,
@@ -32,18 +34,24 @@ public class UserFormController {
     return "greeting";
   }
 
-  @GetMapping("/users")
+  @GetMapping("/userForms")
   public String users(Model model) {
-    model.addAttribute("userForms", service.users());
+    model.addAttribute("userForms", service.userForms());
     return "users";
   }
 
+  /**
+   * Returns page with top five of forms
+   */
   @GetMapping("/topForms")
   public String topForms(Model model) {
     model.addAttribute("forms", service.top5Forms());
     return "topForms";
   }
 
+  /**
+   * Returns page with list of user forms by last hour
+   */
   @GetMapping("/lastHour")
   public String userFormByLastHour(Model model) {
     model.addAttribute("forms", service.userFormByLastHour());
@@ -60,7 +68,7 @@ public class UserFormController {
 
     service.add(userForm);
 
-    model.addAttribute("userForms", service.users());
+    model.addAttribute("userForms", service.userForms());
 
     return "users";
   }

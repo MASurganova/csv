@@ -17,19 +17,19 @@
   </form>
   <br/>
   <h2>List userForms</h2>
-  <table>
+  <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <thead>
     <tr>
-      <th> UID </th>
-      <th> Time </th>
-      <th> Group </th>
-      <th> Type </th>
-      <th> Subtype </th>
-      <th> URL </th>
-      <th> Organization</th>
-      <th> Form </th>
-      <th> Code </th>
-      <th> Date </th>
+      <th style="text-align:center"><b>UID</b></th>
+      <th style="text-align:center"><b>Time</b></th>
+      <th style="text-align:center"><b>Group</b></th>
+      <th style="text-align:center"><b>Type</b></th>
+      <th style="text-align:center"><b>Subtype</b></th>
+      <th style="text-align:center"><b>URL</b></th>
+      <th style="text-align:center"><b>Organization</b></th>
+      <th style="text-align:center"><b>Form</b></th>
+      <th style="text-align:center"><b>Code</b></th>
+      <th style="text-align:center"><b>Date</b></th>
     </tr>
     </thead>
     <tbody>
@@ -37,16 +37,16 @@
       <td colspan="2"> No UserForm Available </td>
     </tr>
     <tr th:each="userForm : ${userForms}">
-      <td><span th:text="${userForm.userUid}"></span></td>
-      <td><span th:text="${userForm.eventTime}"></span></td>
-      <td><span th:text="${userForm.eventGroup}"></span></td>
-      <td><span th:text="${userForm.eventType}"></span></td>
-      <td><span th:text="${userForm.eventSubtype}"></span></td>
-      <td><span th:href="${userForm.url}"></span></td>
-      <td><span th:text="${userForm.organizationId}"></span></td>
-      <td><span th:text="${userForm.formId}"></span></td>
-      <td><span th:text="${userForm.code}"></span></td>
-      <td><span th:text="${userForm.date}"></span></td>
+      <td style="text-align:left" th:utext="${userForm.userUid}"></td>
+      <td style="text-align:left" th:utext="${userForm.eventTime}"></td>
+      <td style="text-align:left" th:utext="${userForm.eventGroup}"></td>
+      <td style="text-align:left" th:utext="${userForm.eventType}"></td>
+      <td style="text-align:left" th:utext="${userForm.eventSubtype}"></td>
+      <td style="text-align:left" th:utext="${userForm.url}"></td>
+      <td style="text-align:left" th:utext="${userForm.organizationId}"></td>
+      <td style="text-align:left" th:utext="${userForm.formId}"></td>
+      <td style="text-align:left" th:utext="${userForm.code}"></td>
+      <td style="text-align:left" th:utext="${userForm.date}"></td>
     </tr>
     </tbody>
   </table>

@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Transfer object to get data from the csv file
+ */
 @Getter
 @Setter
 @NoArgsConstructor
