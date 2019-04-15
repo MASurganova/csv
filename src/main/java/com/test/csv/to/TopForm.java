@@ -1,4 +1,4 @@
-package com.test.csv.model;
+package com.test.csv.to;
 
 import java.util.Comparator;
 import lombok.Getter;

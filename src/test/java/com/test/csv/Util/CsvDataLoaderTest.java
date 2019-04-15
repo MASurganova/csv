@@ -2,7 +2,8 @@ package com.test.csv.Util;
 
 
 import com.test.csv.Application;
-import com.test.csv.model.CsvUserForm;
+import com.test.csv.service.UserFormService;
+import com.test.csv.to.CsvUserForm;
 import com.test.csv.model.UserForm;
 import com.test.csv.repository.UserFormRepository;
 import java.util.List;
@@ -22,11 +23,11 @@ public class CsvDataLoaderTest {
 
   @Test
   public void loadUserForms() {
-    List<CsvUserForm> list = CsvDataLoader.loadCsvUserForms();
+    List<CsvUserForm> list = CsvDataLoader.loadCsvUserForms(UserFormService.FILE_NAME);
     Assert.assertNotNull(list);
     Assert.assertFalse(list.isEmpty());
-    Assert.assertTrue(list.get(0).getSsoid() != null);
-    Assert.assertTrue(list.get(0).getTs() != null);
+    Assert.assertNotNull(list.get(0).getSsoid());
+    Assert.assertNotNull(list.get(0).getTs());
   }
 
   @Test

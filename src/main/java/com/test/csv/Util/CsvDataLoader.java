@@ -3,7 +3,7 @@ package com.test.csv.Util;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.test.csv.model.CsvUserForm;
+import com.test.csv.to.CsvUserForm;
 import com.test.csv.model.UserForm;
 import java.io.File;
 import java.sql.Timestamp;
@@ -18,16 +18,16 @@ import org.springframework.core.io.ClassPathResource;
 public class CsvDataLoader {
   private static final Logger logger = LoggerFactory.getLogger(CsvDataLoader.class);
 
-  public static List<CsvUserForm> loadCsvUserForms() {
+  public static List<CsvUserForm> loadCsvUserForms(String fileName) {
     try {
       CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader().withColumnSeparator(';');
       CsvMapper mapper = new CsvMapper();
-      File file = new ClassPathResource("test_case.csv").getFile();
+      File file = new ClassPathResource(fileName).getFile();
       MappingIterator<CsvUserForm> readValues =
           mapper.reader(CsvUserForm.class).with(bootstrapSchema).readValues(file);
       return readValues.readAll();
     } catch (Exception e) {
-      logger.error("Error occurred while loading object list from file " + "test_case.csv", e);
+      logger.error("Error occurred while loading object list from file " + fileName, e);
       return Collections.emptyList();
     }
   }
