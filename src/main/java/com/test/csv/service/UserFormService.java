@@ -5,14 +5,11 @@ import com.test.csv.model.UserForm;
 import com.test.csv.repository.UserFormRepository;
 import com.test.csv.to.TopForm;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +34,6 @@ public class UserFormService {
   @PostConstruct
   private void init() {
     fillDatabase();
-  }
-
-  /**
-   * Returns list of user forms
-   */
-  public Page<UserForm> userForms(Pageable pageable) {
-    return repository.findAll(pageable);
   }
 
   /**
@@ -73,10 +63,6 @@ public class UserFormService {
    */
   public Page<UserForm> unfinishedUserForm(Pageable pageable) {
     return repository.getUnfinishedUserForm(pageable);
-  }
-
-  public boolean add(UserForm userForm) {
-    return repository.save(userForm) != null;
   }
 
   /**

@@ -24,6 +24,4 @@ public interface UserFormRepository extends CrudRepository<UserForm, Integer> {
   Page<UserForm> findAllByEventTimeBetweenOrderByEventTimeDesc(LocalDateTime start,
       LocalDateTime end, Pageable pageable);
 
-  Page<UserForm> findAll(Pageable pageable);
-
 }

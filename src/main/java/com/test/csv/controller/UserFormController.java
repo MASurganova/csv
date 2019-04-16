@@ -87,24 +87,6 @@ public class UserFormController {
     return "unfinished";
   }
 
-  @GetMapping("/users")
-  public String users(Model model, @RequestParam("page") Optional<Integer> page) {
-    pagination(model, service.userForms(getPageRequest(page, 100)));
-    return "users";
-  }
-
-  @PostMapping("/users")
-  public String add(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime time,
-      @RequestParam String group,
-      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime date, Model model) {
-    UserForm userForm = new UserForm();
-    userForm.setEventTime(time);
-    userForm.setEventGroup(group);
-    userForm.setDate(date);
-    service.add(userForm);
-    return "/users";
-  }
-
   /**
    * Adds pagination functionality to the page
    */

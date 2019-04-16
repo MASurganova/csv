@@ -1,12 +1,10 @@
 package com.test.csv.model;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,10 +41,4 @@ public class UserForm {
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime date;
 
-  public UserForm(String userUid, LocalDateTime eventTime, String formId) {
-    this.userUid = userUid;
-    this.eventTime = eventTime;
-    this.eventSubtype = eventSubtype;
-    this.formId = formId;
-  }
 }

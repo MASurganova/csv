@@ -25,13 +25,6 @@ public class UserFormServiceTest {
   UserFormService service;
 
   @Test
-  public void users() {
-    Iterable<UserForm> userForms = service.userForms(PageRequest.of(0, 10));
-    Assert.assertNotNull(userForms);
-    Assert.assertTrue(userForms.iterator().hasNext());
-  }
-
-  @Test
   public void top5Forms() {
     List<TopForm> topForms = service.top5Forms();
     Assert.assertNotNull(topForms);
