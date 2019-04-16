@@ -49,16 +49,40 @@ public class UserFormController {
   }
 
   /**
-   * Returns page with list of user forms by last hour
+   * Returns page with list of user forms by last hour or by time if start and end in request
    */
   @GetMapping("/lastHour")
-  public String userFormByLastHour(Model model, @RequestParam("page") Optional<Integer> page) {
-    pagination(model, service.userFormByLastHour(getPageRequest(page, 40)));
+  public String userFormByLastHour(Model model, @RequestParam("page") Optional<Integer> page,
+      @RequestParam(value = "start", required = false)
+      @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime start,
+      @RequestParam(value = "end", required = false)
+      @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime end) {
+    if (start == null && end == null)
+      pagination(model, service.userFormByLastHour(getPageRequest(page, 40)));
+    else {
+      pagination(model, service.userFormByTime(start, end, getPageRequest(page, 50)));
+      model.addAttribute("start", start);
+      model.addAttribute("end", end);
+    }
     return "lastHour";
   }
 
   /**
-   * Returns page with list of unfinished user forms by last hour
+   * Returns page with list of user forms by request time
+   */
+  @PostMapping("/lastHour")
+  public String findByTime(Model model,
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime startTime,
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime endTime) {
+    pagination(model, service.userFormByTime(startTime, endTime,
+        getPageRequest(Optional.of(1), 50)));
+    model.addAttribute("start", startTime);
+    model.addAttribute("end", endTime);
+    return "lastHour";
+  }
+
+  /**
+   * Returns page with list of unfinished user forms
    */
   @GetMapping("/unfinished")
   public String unfinishedUserForm(Model model, @RequestParam("page") Optional<Integer> page) {
@@ -66,7 +90,13 @@ public class UserFormController {
     return "unfinished";
   }
 
-  @PostMapping
+  @GetMapping("/users")
+  public String users(Model model, @RequestParam("page") Optional<Integer> page) {
+    pagination(model, service.userForms(getPageRequest(page, 100)));
+    return "users";
+  }
+
+  @PostMapping("/users")
   public String add(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime time,
       @RequestParam String group,
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime date, Model model) {
@@ -76,12 +106,6 @@ public class UserFormController {
     userForm.setDate(date);
     service.add(userForm);
     return "/users";
-  }
-
-  @GetMapping(value = "/users")
-  public String users(Model model, @RequestParam("page") Optional<Integer> page) {
-    pagination(model, service.userForms(getPageRequest(page, 100)));
-    return "users";
   }
 
   /**

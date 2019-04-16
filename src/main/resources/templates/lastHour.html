@@ -5,8 +5,16 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+  <h2>Start and ednd time for search</h2>
+  <form method="POST" th:title="Time for search">
+    <input type="datetime-local" name="startTime" value="2017-07-11T08:59"/>
+    <br/>
+    <input type="datetime-local" name="endTime" value="2017-07-11T09:00"/>
+    <br/>
+    <input type="submit" value="Search" />
+  </form>
   <br/>
-  <h2>Users and forms by last hour</h2>
+  <h2>Users and forms by time</h2>
   <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <thead>
     <tr>
@@ -26,7 +34,7 @@
   </table>
   <div th:if="${formsPage.totalPages > 0}" class="pagination"
        th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/lastHour(size=${formsPage.size}, page=${pageNumber})}"
+    <a th:href="@{/lastHour(page=${pageNumber}, start=${start}, end=${end})}"
        th:text=${pageNumber}
        th:class="${pageNumber==formsPage.number + 1} ? active"></a>
   </div>

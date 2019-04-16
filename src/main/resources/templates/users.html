@@ -54,7 +54,7 @@
   </table>
   <div th:if="${formsPage.totalPages > 0}" class="pagination"
        th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/users(size=${formsPage.size}, page=${pageNumber})}"
+    <a th:href="@{/users(page=${pageNumber})}"
        th:text=${pageNumber}
        th:class="${pageNumber==formsPage.number + 1} ? active"></a>
   </div>
