@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -24,7 +26,7 @@ public class UserFormServiceTest {
 
   @Test
   public void users() {
-    Iterable<UserForm> userForms = service.userForms();
+    Iterable<UserForm> userForms = service.userForms(PageRequest.of(0, 10));
     Assert.assertNotNull(userForms);
     Assert.assertTrue(userForms.iterator().hasNext());
   }
@@ -39,7 +41,7 @@ public class UserFormServiceTest {
 
   @Test
   public void userFormByLastHour() {
-    Iterable<UserForm> userForms = service.userFormByLastHour();
+    Iterable<UserForm> userForms = service.userFormByLastHour(PageRequest.of(0, 10));
     Assert.assertNotNull(userForms);
     Assert.assertFalse(userForms.iterator().hasNext());
   }
@@ -49,7 +51,7 @@ public class UserFormServiceTest {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime start = LocalDateTime.parse("2017-07-11 08:59:00", dtf);
     LocalDateTime end = LocalDateTime.parse("2017-07-11 09:00:00", dtf);
-    List<UserForm> userForms = service.userFormByTime(start, end);
+    Page<UserForm> userForms = service.userFormByTime(start, end, PageRequest.of(0, 10));
     Assert.assertNotNull(userForms);
     Assert.assertTrue(userForms.stream().map(UserForm::getEventTime)
         .allMatch(t -> t.compareTo(start) >= 0 && t.compareTo(end) <= 0));
@@ -57,8 +59,8 @@ public class UserFormServiceTest {
 
   @Test
   public void unfinishedUserForm() {
-    List<UserForm> userForms = service.unfinishedUserForm();
-    System.out.println("\n\n\n" + userForms.size() + "\n\n\n");
+    Page<UserForm> userForms = service.unfinishedUserForm(PageRequest.of(0, 100));
+    System.out.println("\n\n\n" + userForms.getTotalElements() + "\n\n\n");
     Assert.assertNotNull(userForms);
     Assert.assertTrue(userForms.iterator().hasNext());
     Assert.assertFalse(

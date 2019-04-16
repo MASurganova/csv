@@ -3,7 +3,13 @@ package com.test.csv.controller;
 import com.test.csv.model.UserForm;
 import com.test.csv.service.UserFormService;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
@@ -33,12 +39,6 @@ public class UserFormController {
     return "greeting";
   }
 
-  @GetMapping("/userForms")
-  public String users(Model model) {
-    model.addAttribute("forms", service.userForms());
-    return "users";
-  }
-
   /**
    * Returns page with top five of forms
    */
@@ -52,17 +52,17 @@ public class UserFormController {
    * Returns page with list of user forms by last hour
    */
   @GetMapping("/lastHour")
-  public String userFormByLastHour(Model model) {
-    model.addAttribute("forms", service.userFormByLastHour());
-    return "lastHourUserForm";
+  public String userFormByLastHour(Model model, @RequestParam("page") Optional<Integer> page) {
+    pagination(model, service.userFormByLastHour(getPageRequest(page, 40)));
+    return "lastHour";
   }
 
   /**
    * Returns page with list of unfinished user forms by last hour
    */
   @GetMapping("/unfinished")
-  public String unfinishedUserForm(Model model) {
-    model.addAttribute("forms", service.unfinishedUserForm());
+  public String unfinishedUserForm(Model model, @RequestParam("page") Optional<Integer> page) {
+    pagination(model, service.unfinishedUserForm(getPageRequest(page, 50)));
     return "unfinished";
   }
 
@@ -74,11 +74,34 @@ public class UserFormController {
     userForm.setEventTime(time);
     userForm.setEventGroup(group);
     userForm.setDate(date);
-
     service.add(userForm);
+    return "/users";
+  }
 
-    model.addAttribute("forms", service.userForms());
-
+  @GetMapping(value = "/users")
+  public String users(Model model, @RequestParam("page") Optional<Integer> page) {
+    pagination(model, service.userForms(getPageRequest(page, 100)));
     return "users";
+  }
+
+  /**
+   * Adds pagination functionality to the page
+   */
+  private void pagination(Model model, Page<UserForm> userFormPage) {
+    model.addAttribute("formsPage", userFormPage);
+    int totalPages = userFormPage.getTotalPages();
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed()
+          .collect(Collectors.toList());
+      model.addAttribute("pageNumbers", pageNumbers);
+    }
+  }
+
+  /**
+   * Returns the current PageRequest for pagination
+   */
+  private PageRequest getPageRequest(Optional<Integer> page, int count) {
+    int currentPage = page.orElse(1);
+    return PageRequest.of(currentPage - 1, count);
   }
 }

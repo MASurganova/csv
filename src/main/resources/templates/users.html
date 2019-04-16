@@ -33,10 +33,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${!forms.iterator().hasNext()}">
+    <tr th:if="${!formsPage.iterator().hasNext()}" >
       <td colspan="2"> No UserForm Available </td>
     </tr>
-    <tr th:each="form : ${forms}">
+    <tr th:each="form, iStat : ${formsPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
       <td style="text-align:left" th:utext="${form.userUid}"></td>
       <td style="text-align:left" th:utext="${form.eventTime}"></td>
       <td style="text-align:left" th:utext="${form.eventGroup}"></td>
@@ -50,5 +52,11 @@
     </tr>
     </tbody>
   </table>
+  <div th:if="${formsPage.totalPages > 0}" class="pagination"
+       th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/users(size=${formsPage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==formsPage.number + 1} ? active"></a>
+  </div>
 </body>
 </html>
