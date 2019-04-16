@@ -32,10 +32,7 @@ public class UserFormController {
    * Returns start page
    */
   @GetMapping()
-  public String greeting(
-      @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-      Model model) {
-    model.addAttribute("name", name);
+  public String greeting() {
     return "greeting";
   }
 

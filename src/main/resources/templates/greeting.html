@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Getting Started: Serving Web Content</title>
+  <title>Start page for csv parser</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+  <h2>Select actions:</h2>
+  <br>
+  <a th:href="@{/lastHour}" th:method="get">User form by last hour</a>
+  <br>
+  <a th:href="@{/topForms}">Top five forms</a>
+  <br>
+  <a th:href="@{/unfinished}">Unfinished user forms</a>
 </body>
 </html>
