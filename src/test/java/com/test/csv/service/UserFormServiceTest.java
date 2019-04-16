@@ -3,6 +3,8 @@ package com.test.csv.service;
 import com.test.csv.Application;
 import com.test.csv.model.UserForm;
 import com.test.csv.to.TopForm;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.NoArgsConstructor;
 import org.junit.Assert;
@@ -31,11 +33,40 @@ public class UserFormServiceTest {
   public void top5Forms() {
     List<TopForm> topForms = service.top5Forms();
     Assert.assertNotNull(topForms);
-    Assert.assertTrue(topForms.size() == 5);
+    Assert.assertEquals(topForms.size(), 5);
     Assert.assertTrue(topForms.get(0).getCount() > topForms.get(1).getCount());
   }
 
   @Test
   public void userFormByLastHour() {
+    Iterable<UserForm> userForms = service.userFormByLastHour();
+    Assert.assertNotNull(userForms);
+    Assert.assertFalse(userForms.iterator().hasNext());
   }
+
+  @Test
+  public void userFormByTime() {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime start = LocalDateTime.parse("2017-07-11 08:59:00", dtf);
+    LocalDateTime end = LocalDateTime.parse("2017-07-11 09:00:00", dtf);
+    List<UserForm> userForms = service.userFormByTime(start, end);
+    Assert.assertNotNull(userForms);
+    Assert.assertTrue(userForms.stream().map(UserForm::getEventTime)
+        .allMatch(t -> t.compareTo(start) >= 0 && t.compareTo(end) <= 0));
+  }
+
+  @Test
+  public void unfinishedUserForm() {
+    List<UserForm> userForms = service.unfinishedUserForm();
+    System.out.println("\n\n\n" + userForms.size() + "\n\n\n");
+    Assert.assertNotNull(userForms);
+    Assert.assertTrue(userForms.iterator().hasNext());
+    Assert.assertFalse(
+        userForms.stream().map(UserForm::getUserUid).anyMatch(u -> u == null || u.isEmpty()));
+    Assert.assertFalse(
+        userForms.stream().map(UserForm::getFormId).anyMatch(u -> u == null || u.isEmpty()));
+    Assert.assertFalse(userForms.stream().map(UserForm::getEventSubtype)
+        .anyMatch(u -> u.equals("send") || u.equals("success")));
+  }
+
 }

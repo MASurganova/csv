@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Users</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <br/>
+  <h2>List unfinished user forms</h2>
+  <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
+    <thead>
+    <tr>
+      <th style="text-align:center"><b>UID</b></th>
+      <th style="text-align:center"><b>Time</b></th>
+      <th style="text-align:center"><b>Type</b></th>
+      <th style="text-align:center"><b>Subtype</b></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${!forms.iterator().hasNext()}">
+      <td colspan="2"> No UserForm Available </td>
+    </tr>
+    <tr th:each="form : ${forms}">
+      <td style="text-align:left" th:utext="${form.userUid}"></td>
+      <td style="text-align:left" th:utext="${form.eventTime}"></td>
+      <td style="text-align:left" th:utext="${form.eventType}"></td>
+      <td style="text-align:left" th:utext="${form.eventSubtype}"></td>
+    </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -16,7 +16,7 @@
     <input type="submit" value="Create" />
   </form>
   <br/>
-  <h2>List userForms</h2>
+  <h2>List user forms</h2>
   <table align="left" border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <thead>
     <tr>
@@ -33,20 +33,20 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${!userForms.iterator().hasNext()}">
+    <tr th:if="${!forms.iterator().hasNext()}">
       <td colspan="2"> No UserForm Available </td>
     </tr>
-    <tr th:each="userForm : ${userForms}">
-      <td style="text-align:left" th:utext="${userForm.userUid}"></td>
-      <td style="text-align:left" th:utext="${userForm.eventTime}"></td>
-      <td style="text-align:left" th:utext="${userForm.eventGroup}"></td>
-      <td style="text-align:left" th:utext="${userForm.eventType}"></td>
-      <td style="text-align:left" th:utext="${userForm.eventSubtype}"></td>
-      <td style="text-align:left" th:utext="${userForm.url}"></td>
-      <td style="text-align:left" th:utext="${userForm.organizationId}"></td>
-      <td style="text-align:left" th:utext="${userForm.formId}"></td>
-      <td style="text-align:left" th:utext="${userForm.code}"></td>
-      <td style="text-align:left" th:utext="${userForm.date}"></td>
+    <tr th:each="form : ${forms}">
+      <td style="text-align:left" th:utext="${form.userUid}"></td>
+      <td style="text-align:left" th:utext="${form.eventTime}"></td>
+      <td style="text-align:left" th:utext="${form.eventGroup}"></td>
+      <td style="text-align:left" th:utext="${form.eventType}"></td>
+      <td style="text-align:left" th:utext="${form.eventSubtype}"></td>
+      <td style="text-align:left" th:utext="${form.url}"></td>
+      <td style="text-align:left" th:utext="${form.organizationId}"></td>
+      <td style="text-align:left" th:utext="${form.formId}"></td>
+      <td style="text-align:left" th:utext="${form.code}"></td>
+      <td style="text-align:left" th:utext="${form.date}"></td>
     </tr>
     </tbody>
   </table>

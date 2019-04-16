@@ -28,7 +28,10 @@ public class UserForm {
   private int id;
 
   private String userUid;
-  private LocalTime eventTime;
+
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private LocalDateTime eventTime;
+
   private String eventGroup;
   private String eventType;
   private String eventSubtype;
@@ -40,4 +43,10 @@ public class UserForm {
   @DateTimeFormat(iso = ISO.DATE_TIME)
   private LocalDateTime date;
 
+  public UserForm(String userUid, LocalDateTime eventTime, String formId) {
+    this.userUid = userUid;
+    this.eventTime = eventTime;
+    this.eventSubtype = eventSubtype;
+    this.formId = formId;
+  }
 }

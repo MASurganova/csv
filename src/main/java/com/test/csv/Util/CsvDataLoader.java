@@ -3,11 +3,12 @@ package com.test.csv.Util;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.test.csv.to.CsvUserForm;
 import com.test.csv.model.UserForm;
+import com.test.csv.to.CsvUserForm;
 import java.io.File;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
  * Data uploader from csv file
  */
 public class CsvDataLoader {
+
   private static final Logger logger = LoggerFactory.getLogger(CsvDataLoader.class);
 
   /**
@@ -44,8 +46,8 @@ public class CsvDataLoader {
   public static UserForm csvUserFormToUserForm(CsvUserForm csvUserForm) {
     UserForm userForm = new UserForm();
     userForm.setUserUid(csvUserForm.getSsoid());
-    userForm.setEventTime(
-        new Timestamp(Long.parseLong(csvUserForm.getTs())).toLocalDateTime().toLocalTime());
+    userForm.setEventTime(LocalDateTime
+        .ofInstant(Instant.ofEpochSecond(Long.parseLong(csvUserForm.getTs())), ZoneId.of("UTC")));
     userForm.setUrl(csvUserForm.getUrl());
     userForm.setEventGroup(csvUserForm.getGrp());
     userForm.setEventType(csvUserForm.getType());

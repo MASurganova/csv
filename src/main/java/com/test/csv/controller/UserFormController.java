@@ -3,7 +3,6 @@ package com.test.csv.controller;
 import com.test.csv.model.UserForm;
 import com.test.csv.service.UserFormService;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -36,7 +35,7 @@ public class UserFormController {
 
   @GetMapping("/userForms")
   public String users(Model model) {
-    model.addAttribute("userForms", service.userForms());
+    model.addAttribute("forms", service.userForms());
     return "users";
   }
 
@@ -58,8 +57,18 @@ public class UserFormController {
     return "lastHourUserForm";
   }
 
+  /**
+   * Returns page with list of unfinished user forms by last hour
+   */
+  @GetMapping("/unfinished")
+  public String unfinishedUserForm(Model model) {
+    model.addAttribute("forms", service.unfinishedUserForm());
+    return "unfinished";
+  }
+
   @PostMapping
-  public String add(@RequestParam LocalTime time, @RequestParam String group,
+  public String add(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime time,
+      @RequestParam String group,
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime date, Model model) {
     UserForm userForm = new UserForm();
     userForm.setEventTime(time);
@@ -68,7 +77,7 @@ public class UserFormController {
 
     service.add(userForm);
 
-    model.addAttribute("userForms", service.userForms());
+    model.addAttribute("forms", service.userForms());
 
     return "users";
   }
